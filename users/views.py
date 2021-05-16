@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, reverse
 from django.contrib.auth import login, authenticate
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import PasswordChangeForm, UserCreationForm
 from django.contrib.auth.decorators import login_required
 from .forms import UploadFileForm, EditFileName
 from .models import Image
@@ -9,10 +9,7 @@ from .models import Image
 @login_required
 def home(request):
     context = {}
-    if request.method == "PUT":
-        form2 = EditFileName(request, request.FILES)
-        if form2.is_valid():
-            username = request.user
+
     if request.method == "POST":
         print(request.user)
         form = UploadFileForm(request.POST, request.FILES)
@@ -30,10 +27,34 @@ def home(request):
             print(obj)
     else:
         form = UploadFileForm()
+        form2 = EditFileName()
+        context['form2'] = form2
     context['form'] = form
     context['data'] = Image.objects.all()
     print(context)
     return render(request, "registration/success.html", context)
+
+
+def edit(request):
+    context = {}
+    if request.method == "POST":
+        print('--------------')
+        form2 = EditFileName(request.POST)
+        if form2.is_valid():
+            username = request.user
+            image_text = form2.cleaned_data.get("image_text")
+            obj = Image.objects.filter(id=request.POST['image_id']).update(
+                image_text=image_text
+            )
+
+            print('obj in form2', obj)
+    form2 = EditFileName()
+    context['form2'] = form2
+    form = UploadFileForm()
+    context['form'] = form
+    context['data'] = Image.objects.all()
+    print(context)
+    return redirect('/home/')
 
 
 def register(request):

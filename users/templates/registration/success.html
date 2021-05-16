@@ -23,13 +23,15 @@
         {% for question in data %}
         <div>
             <img src="/media/{{question.image}}" width="150" height="150">
+            <br>
             filename: {{ question.image_text }} <br>
-            <form method="PUT">
+            <form method="POST" action="/edit/">
               {% csrf_token %}
               {{ form2.as_p }}
-              <input id="image_text" placeholder="{{question.image_text}}" type="text" name="image_text" maxlength="100">
+              <input type="hidden" value="{{ question.id }}" name="image_id">
               <input type="submit" value="Submit">
             </form>
+            <hr>
         {% endfor %}
         {% endif %}
         </div>

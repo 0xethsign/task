@@ -8,4 +8,4 @@ class UploadFileForm(forms.Form):
 
 
 class EditFileName(forms.Form):
-    filename = CharField(max_length=200)
+    image_text = CharField(max_length=200)
