@@ -1,0 +1,39 @@
+{% extends 'registration/base.html' %} 
+{% block content %}
+{% load static %}
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 col-centered">
+        <h1 class="mt-5 mb-3">Pictures here</h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 col-centered mt-3">
+        <a href="{% url 'logout' %}" class="btn btn-primary">Logout</a>
+      </div>
+      <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Submit">
+      </form>
+    </div>
+    <div>
+        {% if data %}
+        {% for question in data %}
+        <div>
+            <img src="/media/{{question.image}}" width="150" height="150">
+            filename: {{ question.image_text }} <br>
+            <form method="PUT">
+              {% csrf_token %}
+              {{ form2.as_p }}
+              <input id="image_text" placeholder="{{question.image_text}}" type="text" name="image_text" maxlength="100">
+              <input type="submit" value="Submit">
+            </form>
+        {% endfor %}
+        {% endif %}
+        </div>
+    </div>
+  </div>
+</section>
+{% endblock %} 
