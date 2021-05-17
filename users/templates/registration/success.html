@@ -26,6 +26,7 @@
             <br>
             filename: {{ question.image_text }} <br>
             Text extracted using OCR: {{ question.OCRtext }}
+            <br><br><br>
             <form method="POST" action="/edit/">
               {% csrf_token %}
               {{ form2.as_p }}

@@ -7,6 +7,7 @@ from .forms import UploadFileForm, EditFileName
 from .models import Image
 import cv2
 import pytesseract
+from PIL import Image as Img
 
 
 @login_required
@@ -21,13 +22,9 @@ def home(request):
             username = request.user
             image_text = request.FILES["image"].name
             image = form.cleaned_data.get("image")
-            image_path = "../media/storage" + str(image)
-            image_clone = cv2.imread(image_path)
-            image_clone = cv2.cvtColor(image_clone, cv2.COLOR_BGR2GRAY)
-            image_clone = cv2.threshold(
-                image_clone, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]
-            image_clone = cv2.medianBlur(image_clone, 5)
-            OCRtext = pytesseract.image_to_string(image_clone)
+            img = Img.open(image)
+            OCRtext = pytesseract.image_to_string(
+                img, lang='eng', config='--psm ' + str(6))
             obj = Image.objects.create(
                 username=username,
                 image_text=image_text,
