@@ -5,7 +5,7 @@
   <div class="container">
     <div class="row">
       <div class="col-md-12 col-centered">
-        <h1 class="mt-5 mb-3">Pictures here</h1>
+        <h1 class="mt-5 mb-3">Pictures</h1>
       </div>
     </div>
     <div class="row">
@@ -25,6 +25,7 @@
             <img src="/media/{{question.image}}" width="150" height="150">
             <br>
             filename: {{ question.image_text }} <br>
+            Text extracted using OCR: {{ question.OCRtext }}
             <form method="POST" action="/edit/">
               {% csrf_token %}
               {{ form2.as_p }}
