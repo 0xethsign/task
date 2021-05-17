@@ -21,12 +21,8 @@ def home(request):
             username = request.user
             image_text = request.FILES["image"].name
             image = form.cleaned_data.get("image")
-            # extracting text from image
-            print('----------------------')
-            # image_clone = '../media/storage/'+str(image)
-            image_clone = cv2.imread(str(image))
-            print(str(image))
-            print('----------------------')
+            image_path = "../media/storage" + str(image)
+            image_clone = cv2.imread(image_path)
             image_clone = cv2.cvtColor(image_clone, cv2.COLOR_BGR2GRAY)
             image_clone = cv2.threshold(
                 image_clone, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]
